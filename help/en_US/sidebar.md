@@ -1,3 +1,3 @@
-**My_WP_Plugin**
+**Knowledge_Base**
 
-<a href="https://wordpress.org/support/plugin/My_WP_Plugin/" target="_blank">My_WP_Plugin support forum</a>
+<a href="https://wordpress.org/support/plugin/Knowledge_Base/" target="_blank">Knowledge_Base support forum</a>

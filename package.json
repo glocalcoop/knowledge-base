@@ -1,0 +1,14 @@
+{
+  "name": "wp-knowledge-base",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glocalcoop/knowledge-base.git"
+  },
+  "config": {
+    "bower_directory": "vendor"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  }
+}

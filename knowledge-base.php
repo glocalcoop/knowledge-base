@@ -1,18 +1,16 @@
 <?php
 /**
- * The My_WP_Plugin plugin for WordPress.
- *
- * WordPress plugin header information:
- *
- * * Plugin Name: My_WP_Plugin
- * * Plugin URI: https://github.com/meitar/My_WP_Plugin
- * * Description: My Plugin Description
+ * The Knowledge_Base plugin for WordPress.
+ * *
+ * * Plugin Name: Knowledge Base
+ * * Plugin URI: https://github.com/glocalcoop/knowledge-base
+ * * Description: Simple plugin that creates a knowledge base with related taxonomies
  * * Version: 0.1
- * * Author: My Name <my_email_address@example.com>
- * * Author URI: https://example.com/
+ * * Author: Pea, Glocal <pea@glocal.coop>
+ * * Author URI: https://glocal.coop
  * * License: GPL-3
  * * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
- * * Text Domain: My_WP_Plugin
+ * * Text Domain: Knowledge_Base
  * * Domain Path: /languages
  *
  * @link https://developer.wordpress.org/plugins/the-basics/header-requirements/
@@ -21,15 +19,15 @@
  *
  * @copyright Copyright (c) 2016 by My Name
  *
- * @package WordPress\Plugin\My_WP_Plugin
+ * @package WordPress\Plugin\Knowledge_Base
  */
 
-if (!defined('ABSPATH')) { exit; } // Disallow direct HTTP access.
+if ( !defined('ABSPATH') ) { exit; } // Disallow direct HTTP access.
 
 /**
  * Base class that WordPress uses to register and initialize plugin.
  */
-class My_WP_Plugin {
+class Knowledge_Base {
 
     /**
      * String to prefix option names, settings, etc. in shared spaces.
@@ -41,7 +39,7 @@ class My_WP_Plugin {
      *
      * @var string
      */
-    public static $prefix = 'My_WP_Plugin';
+    public static $prefix = 'Knowledge_Base';
 
     /**
      * Entry point for the WordPress framework into plugin code.
@@ -57,13 +55,13 @@ class My_WP_Plugin {
      * @return void
      */
     public static function register () {
-        add_action('plugins_loaded', array(__CLASS__, 'registerL10n'));
-        add_action('init', array(__CLASS__, 'initialize'));
-        add_action('admin_head', array(__CLASS__, 'addHelpTab'));
-        add_action('admin_head', array(__CLASS__, 'addHelpSidebar'));
+        add_action( 'plugins_loaded', array(__CLASS__, 'registerL10n') );
+        add_action( 'init', array(__CLASS__, 'initialize') );
+        add_action( 'admin_head', array(__CLASS__, 'addHelpTab') );
+        add_action( 'admin_head', array(__CLASS__, 'addHelpSidebar') );
 
-        register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
-        register_deactivation_hook(__FILE__, array(__CLASS__, 'deactivate'));
+        register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
+        register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
     }
 
     /**
@@ -74,7 +72,7 @@ class My_WP_Plugin {
      * @return void
      */
     public static function registerL10n () {
-        load_plugin_textdomain('My_WP_Plugin', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        load_plugin_textdomain( 'Knowledge_Base', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     /**
@@ -84,7 +82,7 @@ class My_WP_Plugin {
      * @return void
      */
     public static function initialize () {
-        if (!class_exists('WP_Screen_Help_Loader')) {
+        if ( !class_exists( 'WP_Screen_Help_Loader' ) ) {
             require_once 'includes/vendor/wp-screen-help-loader/class-wp-screen-help-loader.php';
         }
 
@@ -95,7 +93,7 @@ class My_WP_Plugin {
      * Method to run when the plugin is activated by a user in the
      * WordPress Dashboard admin screen.
      *
-     * @uses My_WP_Plugin::checkPrereqs()
+     * @uses Knowledge_Base::checkPrereqs()
      *
      * @return void
      */
@@ -112,7 +110,7 @@ class My_WP_Plugin {
      * @global $wp_version
      *
      * @uses $wp_version
-     * @uses My_WP_Plugin::get_minimum_wordpress_version()
+     * @uses Knowledge_Base::get_minimum_wordpress_version()
      * @uses deactivate_plugins()
      * @uses plugin_basename()
      *
@@ -121,10 +119,10 @@ class My_WP_Plugin {
     public static function checkPrereqs () {
         global $wp_version;
         $min_wp_version = self::get_minimum_wordpress_version();
-        if (version_compare($min_wp_version, $wp_version) > 0) {
-            deactivate_plugins(plugin_basename(__FILE__));
-            wp_die(sprintf(
-                __('My_WP_Plugin requires at least WordPress version %1$s. You have WordPress version %2$s.', 'My_WP_Plugin'),
+        if ( version_compare( $min_wp_version, $wp_version ) > 0 ) {
+            deactivate_plugins( plugin_basename( __FILE__ ) );
+            wp_die( sprintf(
+                __( 'Knowledge_Base requires at least WordPress version %1$s. You have WordPress version %2$s.', 'Knowledge_Base' ),
                 $min_wp_version, $wp_version
             ));
         }
@@ -138,10 +136,10 @@ class My_WP_Plugin {
      * @return string
      */
     public static function get_minimum_wordpress_version () {
-        $lines = @file(plugin_dir_path(__FILE__) . 'readme.txt');
+        $lines = @file( plugin_dir_path( __FILE__ ) . 'readme.txt' );
         foreach ($lines as $line) {
-            preg_match('/^Requires at least: ([0-9.]+)$/', $line, $m);
-            if ($m) {
+            preg_match( '/^Requires at least: ([0-9.]+)$/', $line, $m );
+            if ( $m ) {
                 return $m[1];
             }
         }
@@ -168,7 +166,7 @@ class My_WP_Plugin {
      * @return void
      */
     public static function addHelpTab () {
-        $help = new WP_Screen_Help_Loader(plugin_dir_path(__FILE__) . 'help');
+        $help = new WP_Screen_Help_Loader( plugin_dir_path( __FILE__ ) . 'help' );
         $help->applyTabs();
     }
 
@@ -180,7 +178,7 @@ class My_WP_Plugin {
      * @return void
      */
     public static function addHelpSidebar () {
-        $help = new WP_Screen_Help_Loader(plugin_dir_path(__FILE__) . 'help');
+        $help = new WP_Screen_Help_Loader( plugin_dir_path( __FILE__ ) . 'help' );
         $help->applySidebar();
     }
 
@@ -191,7 +189,7 @@ class My_WP_Plugin {
      *
      * @return string
      */
-    private static function error_msg ($message) {
+    private static function error_msg ( $message ) {
         $dbt = debug_backtrace();
         // the "2" is so we get the name of the function that originally called debug_log()
         // This works so long as error_msg() is always called by debug_log()
@@ -200,4 +198,4 @@ class My_WP_Plugin {
 
 }
 
-My_WP_Plugin::register();
+Knowledge_Base::register();

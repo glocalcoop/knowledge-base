@@ -1,6 +1,6 @@
-# My_WP_Plugin Help
+# Knowledge_Base Help
 
-This directory contains the contents for the My_WP_Plugin screen help tabs and a screen's help sidebar. Its contents are dynamically loaded by the [WP Screen Help Loader](https://wordpress.org/plugins/wp-screen-help-loader/) plugin library.
+This directory contains the contents for the Knowledge_Base screen help tabs and a screen's help sidebar. Its contents are dynamically loaded by the [WP Screen Help Loader](https://wordpress.org/plugins/wp-screen-help-loader/) plugin library.
 
 * Each help file is contained within a directory matching the [locale string of the WordPress installation](https://developer.wordpress.org/reference/functions/get_locale/).
 * File contents are standard [Markdown](https://daringfireball.net/projects/markdown/), and parsed into HTML at runtime.
@@ -14,13 +14,13 @@ For instance, take the following directory structure:
     help/
     ├── README.md # <- You are reading this file now.
     └── en_US
-        ├── addMy_WP_Plugin-10.md
-        ├── My_WP_Plugin_page_My_WP_Plugin_safety_info.md
-        ├── My_WP_Plugin_page_My_WP_Plugin_membership-10.md
-        ├── My_WP_Plugin_page_My_WP_Plugin_membership-20.md
-        ├── edit-My_WP_Plugin-10.md
+        ├── addKnowledge_Base-10.md
+        ├── Knowledge_Base_page_Knowledge_Base_safety_info.md
+        ├── Knowledge_Base_page_Knowledge_Base_membership-10.md
+        ├── Knowledge_Base_page_Knowledge_Base_membership-20.md
+        ├── edit-Knowledge_Base-10.md
         ├── profile-20.md
-        ├── settings_page_My_WP_Plugin_settings.md
+        ├── settings_page_Knowledge_Base_settings.md
         ├── sidebar-profile.md
         └── sidebar.md
 
