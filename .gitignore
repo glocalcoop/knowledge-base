@@ -28,3 +28,4 @@ phpdoc.xml
 # save it in the code repository itself.
 docs/
 vendor
+bin
