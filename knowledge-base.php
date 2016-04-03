@@ -16,9 +16,7 @@
  * @link https://developer.wordpress.org/plugins/the-basics/header-requirements/
  *
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html
- *
- * @copyright Copyright (c) 2016 by My Name
- *
+ * 
  * @package WordPress\Plugin\Knowledge_Base
  */
 
@@ -42,6 +40,16 @@ class Knowledge_Base {
     public static $prefix = 'Knowledge_Base';
 
     /**
+     * Text Domain
+     *
+     * @link https://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
+     *
+     * @var string
+     */
+    public static $text_domain = 'knowledge-base';
+
+
+    /**
      * Entry point for the WordPress framework into plugin code.
      *
      * This is the method called when WordPress loads the plugin file.
@@ -55,6 +63,8 @@ class Knowledge_Base {
      * @return void
      */
     public static function register () {
+        require_once 'includes/class-knowledge-base.php';
+        require_once 'includes/class-knowledge-base-taxonomy.php';
         add_action( 'plugins_loaded', array(__CLASS__, 'registerL10n') );
         add_action( 'init', array(__CLASS__, 'initialize') );
         add_action( 'admin_head', array(__CLASS__, 'addHelpTab') );
@@ -72,7 +82,7 @@ class Knowledge_Base {
      * @return void
      */
     public static function registerL10n () {
-        load_plugin_textdomain( 'Knowledge_Base', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+        load_plugin_textdomain( self::$text_domain, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     /**
@@ -83,10 +93,16 @@ class Knowledge_Base {
      */
     public static function initialize () {
         if ( !class_exists( 'WP_Screen_Help_Loader' ) ) {
-            require_once 'includes/vendor/wp-screen-help-loader/class-wp-screen-help-loader.php';
+            require_once 'vendor/meitar/wp-screen-help-loader/class-wp-screen-help-loader.php';
         }
+        $tax = new Knowledge_Base_Taxonomy();
+        $tax->register();
 
-        // TODO
+        $cpt = new Knowledge_Base_Entry();
+        $cpt->register();
+
+        //Multisite_Directory_Shortcode::register();
+
     }
 
     /**
@@ -97,7 +113,7 @@ class Knowledge_Base {
      *
      * @return void
      */
-    public static function activate () {
+    public static function activate() {
         self::checkPrereqs();
     }
 
@@ -116,7 +132,7 @@ class Knowledge_Base {
      *
      * @return void
      */
-    public static function checkPrereqs () {
+    public static function checkPrereqs() {
         global $wp_version;
         $min_wp_version = self::get_minimum_wordpress_version();
         if ( version_compare( $min_wp_version, $wp_version ) > 0 ) {
@@ -135,7 +151,7 @@ class Knowledge_Base {
      *
      * @return string
      */
-    public static function get_minimum_wordpress_version () {
+    public static function get_minimum_wordpress_version() {
         $lines = @file( plugin_dir_path( __FILE__ ) . 'readme.txt' );
         foreach ($lines as $line) {
             preg_match( '/^Requires at least: ([0-9.]+)$/', $line, $m );
@@ -151,7 +167,7 @@ class Knowledge_Base {
      *
      * @return void
      */
-    public static function deactivate () {
+    public static function deactivate() {
         // TODO
     }
 
@@ -165,7 +181,7 @@ class Knowledge_Base {
      *
      * @return void
      */
-    public static function addHelpTab () {
+    public static function addHelpTab() {
         $help = new WP_Screen_Help_Loader( plugin_dir_path( __FILE__ ) . 'help' );
         $help->applyTabs();
     }
@@ -177,7 +193,7 @@ class Knowledge_Base {
      *
      * @return void
      */
-    public static function addHelpSidebar () {
+    public static function addHelpSidebar() {
         $help = new WP_Screen_Help_Loader( plugin_dir_path( __FILE__ ) . 'help' );
         $help->applySidebar();
     }
@@ -189,7 +205,7 @@ class Knowledge_Base {
      *
      * @return string
      */
-    private static function error_msg ( $message ) {
+    private static function error_msg( $message ) {
         $dbt = debug_backtrace();
         // the "2" is so we get the name of the function that originally called debug_log()
         // This works so long as error_msg() is always called by debug_log()

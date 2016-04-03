@@ -1,10 +1,8 @@
 <?php
 /**
- * The Multisite Directory Widget
+ * The Knowledge Base Widget
  *
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html
- *
- * @copyright Copyright (c) 2016 TK-TODO
  *
  * @package WordPress\Plugin\Knowledge_Base
  */
@@ -16,12 +14,12 @@
  */
 class Knowledge_Base_Widget extends WP_Widget {
 
-    public function __construct () {
+    public function __construct() {
         parent::__construct(
             strtolower(__CLASS__),
-            __('Network Directory Widget', 'multisite-directory'),
+            __( 'Knowledge Base Categories Widget', Knowledge_Base::text_domain ),
             array(
-                'description' => __('Shows similarly-categorized Sites from the Network Directory.', 'multisite-directory')
+                'description' => __( 'Shows categories in knowledge base.', Knowledge_Base::text_domain )
             )
         );
     }
@@ -33,61 +31,37 @@ class Knowledge_Base_Widget extends WP_Widget {
      *
      * @return string
      */
-    public function form ($instance) {
-        $instance = wp_parse_args($instance, array(
+    public function form( $instance ) {
+        $instance = wp_parse_args( $instance, array(
             // Widget defaults.
-            'display' => 'list',
-            'show_site_logo' => 1,
-            'logo_size' => 'post-thumbnail',
-        ));
+            'display'       => 'list',
+            'hide_empty'    => 1,
+        ) );
 ?>
-<ul>
-    <li>
-        <input type="radio"
-            id="<?php print $this->get_field_id('display_as_list');?>"
-            name="<?php print $this->get_field_name('display')?>"
-            value="list"
-            <?php checked($instance['display'], 'list');?>
-        />
-        <label for="<?php print $this->get_field_id('display_as_list');?>">
-            <?php esc_html_e('Display as list', 'multisite-directory');?>
-        </label>
-    </li>
-    <li>
-        <input type="radio"
-            id="<?php print $this->get_field_id('display_as_map');?>"
-            name="<?php print $this->get_field_name('display')?>"
-            value="map"
-            <?php checked($instance['display'], 'map');?>
-        />
-        <label for="<?php print $this->get_field_id('display_as_map');?>">
-            <?php esc_html_e('Display as map', 'multisite-directory');?>
-        </label>
-    </li>
-</ul>
 <p>
+    <?php //Hide Empty ?>
     <input type="checkbox"
-        id="<?php print $this->get_field_id('show_site_logo');?>"
-        name="<?php print $this->get_field_name('show_site_logo')?>"
+        id="<?php print $this->get_field_id( 'hide_empty' );?>"
+        name="<?php print $this->get_field_name( 'hide_empty' )?>"
         value="1"
-        <?php checked($instance['show_site_logo']);?>
+        <?php checked( $instance['hide_empty'] );?>
     />
-    <label for="<?php print $this->get_field_id('show_site_logo');?>">
-        <?php esc_html_e('Show site logos', 'multisite-directory');?>
+    <label for="<?php print $this->get_field_id( 'hide_empty' );?>">
+        <?php esc_html_e( 'Hide Empty', Knowledge_Base::text_domain );?>
     </label>
-    <label for="<?php print $this->get_field_id('logo_size');?>">
-        <?php
-        /* translators: Part of the logo size widget, like "Show site logo at size: " */
-        esc_html_e('at size', 'multisite-directory');
+
+    <?php //Display ?>
+    <label for="<?php print $this->get_field_id( 'display' );?>">
+        <?php esc_html_e( 'Display As', Knowledge_Base::text_domain );
         ?>
     </label>
     <select
-        id="<?php print $this->get_field_id('logo_size');?>"
-        name="<?php print $this->get_field_name('logo_size');?>"
+        id="<?php print $this->get_field_id( 'display' );?>"
+        name="<?php print $this->get_field_name( 'display' );?>"
     >
-        <?php foreach (get_intermediate_image_sizes() as $size) { if (has_image_size($size)) : ?>
-        <option <?php selected($instance['logo_size'], $size);?>><?php print esc_html($size);?></option>
-        <?php endif; } ?>
+        <option <?php selected( $instance['display'], 'list' );?>><?php print esc_html( 'List' );?></option>
+        <option <?php selected( $instance['display'], 'block' );?>><?php print esc_html( 'Block' );?></option>
+        
     </select>
 </p>
 <?php
@@ -103,12 +77,11 @@ class Knowledge_Base_Widget extends WP_Widget {
      *
      * @return array|bool Settings to save or bool false to cancel saving.
      */
-    public function update ($new_instance, $old_instance) {
+    public function update( $new_instance, $old_instance ) {
         $instance = array();
 
-        $instance['display'] = sanitize_text_field($new_instance['display']);
-        $instance['show_site_logo'] = (int) $new_instance['show_site_logo'];
-        $instance['logo_size'] = (has_image_size($new_instance['logo_size'])) ? $new_instance['logo_size'] : 0;
+        $instance['display'] = sanitize_text_field( $new_instance['display'] );
+        $instance['hide_empty'] = (int) $new_instance['hide_empty'];
 
         return $instance;
     }
@@ -123,14 +96,14 @@ class Knowledge_Base_Widget extends WP_Widget {
      *
      * @return void
      */
-    public function widget ($args, $instance) {
+    public function widget( $args, $instance ) {
         $atts = '';
-        foreach ($instance as $k => $v) {
-            if ($v) {
-                $atts .= "$k='$v' ";
+        foreach ( $instance as $key => $value ) {
+            if( $value ) {
+                $atts .= "$key='$value' ";
             }
         }
-        print do_shortcode('['.Knowledge_Base_Shortcode::tagname." $atts]");
+        print do_shortcode( '['.Knowledge_Base_Shortcode::tagname." $atts]" );
     }
 
 }

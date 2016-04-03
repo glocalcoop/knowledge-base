@@ -4,8 +4,6 @@
  *
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html
  *
- * @copyright Copyright (c) 2016 TK-TODO
- *
  * @package WordPress\Plugin\Knowledge_Base
  */
 

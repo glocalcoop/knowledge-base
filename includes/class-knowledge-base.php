@@ -1,16 +1,14 @@
 <?php
 /**
- * A Subsite Post
+ * A Knowledge Base Post
  *
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html
- *
- * @copyright Copyright (c) 2016 TK-TODO
  *
  * @package WordPress\Plugin\Knowledge_Base
  */
 
 /**
- * Class defining a "Subsite" custom post type.
+ * Class defining a "Knowledge_Base" custom post type.
  */
 class Knowledge_Base_Entry {
 
@@ -19,14 +17,7 @@ class Knowledge_Base_Entry {
      *
      * @var string
      */
-    const name = 'network_directory';
-
-    /**
-     * Post meta key for the blog ID.
-     *
-     * @var string
-     */
-    const blog_id_meta_key = 'site_directory_blog_id';
+    const name = 'knowledge_base';
 
     /**
      * Custom post type UI labels.
@@ -41,13 +32,13 @@ class Knowledge_Base_Entry {
      * @var array
      */
     private $capabilities = array(
-        'edit_post'          => 'manage_sites',
-        'read_post'          => 'manage_sites',
-        'delete_post'        => 'manage_sites',
-        'edit_posts'         => 'manage_sites',
-        'edit_others_posts'  => 'manage_sites',
-        'publish_posts'      => 'manage_sites',
-        'read_private_posts' => 'manage_sites',
+        'edit_post'          => 'edit_posts',
+        'read_post'          => 'edit_posts',
+        'delete_post'        => 'edit_posts',
+        'edit_posts'         => 'edit_posts',
+        'edit_others_posts'  => 'edit_posts',
+        'publish_posts'      => 'edit_posts',
+        'read_private_posts' => 'edit_posts',
     );
 
     /**
@@ -55,8 +46,8 @@ class Knowledge_Base_Entry {
      */
     public function __construct () {
         $this->labels = array(
-            'name'                  => _x('Sites', 'Post Type General Name', 'multisite-directory'),
-            'singular_name'         => _x('Site', 'Post Type Singular Name', 'multisite-directory'),
+            'name'                  => _x( 'Knowledge Base', 'Post Type General Name', Knowledge_Base::$text_domain ),
+            'singular_name'         => _x( 'Knowledge Base Item', 'Post Type Singular Name', Knowledge_Base::$text_domain ),
         );
     }
 
@@ -64,13 +55,13 @@ class Knowledge_Base_Entry {
      * Registers the custom post type with via WordPress API.
      */
     public function register () {
-        register_post_type(self::name, array(
-            'labels'       => $this->labels,
+        register_post_type( self::name, array(
+            'labels'       => apply_filters( 'kb_labels', $this->labels ),
             'public'       => true,
-            'show_in_menu' => (1 === get_current_blog_id()) ? true : false,
-            'hierarchical' => true,
+            'show_in_menu' => true,
+            'hierarchical' => apply_filters( 'kb_hierarchical', false ),
             'has_archive'  => true,
-            'capabilities' => $this->capabilities,
+            'capabilities' => apply_filters( 'kb_capabilities', $this->capabilities ),
             'supports'     => array(
                 'title',
                 'editor',
@@ -79,9 +70,9 @@ class Knowledge_Base_Entry {
                 'thumbnail',
                 'page-attributes'
             ),
-            'menu_icon'    => 'dashicons-networking',
-            'taxonomies'   => array(Knowledge_Base_Taxonomy::name),
-        ));
+            'menu_icon'    => apply_filters( 'kb_menu_icon', 'dashicons-lightbulb' ),
+            'taxonomies'   => array( Knowledge_Base_Taxonomy::name ),
+        ) );
     }
 
     /**
@@ -91,46 +82,17 @@ class Knowledge_Base_Entry {
      *
      * @return array
      */
-    public function get_posts ($args = null) {
-        if (!is_null($args)) {
-            $args = wp_parse_args($args, array(
+    public function get_posts ( $args = null ) {
+        if ( !is_null( $args ) ) {
+            $args = wp_parse_args( $args, array(
                 'post_type' => self::name
-            ));
+            ) );
         }
         // TODO: We should consider making this a variable so the end
         //       user can determine which blog to save the site-wide
         //       directory metadata to.
-        switch_to_blog(1); // 1 is (always?) the main blog
-        $posts = get_posts($args);
-        restore_current_blog();
+        $posts = get_posts( $args );
         return $posts;
-    }
-
-    /**
-     * Inserts a new post for the given subsite.
-     *
-     * @param int $blog_id
-     *
-     * @uses get_blog_details()
-     * @uses wp_insert_post()
-     *
-     * @return int|WP_Error
-     */
-    public function add_new_site_post ($blog_id) {
-        $blog = get_blog_details($blog_id);
-        $postarr = array(
-            'post_type'   => self::name,
-            'post_status' => 'publish',
-            'post_title'  => $blog->blogname,
-            'meta_input'  => array(
-                self::blog_id_meta_key => $blog_id
-            )
-        );
-
-        switch_to_blog(1);
-        $result = wp_insert_post($postarr);
-        restore_current_blog();
-        return $result;
     }
 
 }
