@@ -35,6 +35,7 @@ class Knowledge_Base_Shortcodes {
     function __construct() {
 
         add_shortcode( 'knowledge-base',  array( $this, 'get_category_list' ) );
+        add_filter( 'widget_text', 'do_shortcode' );  
     }
  
     /**
@@ -52,7 +53,7 @@ class Knowledge_Base_Shortcodes {
 
         $this->atts = shortcode_atts( array(
             // Recognized shortcode attribute names and their values.
-            'hide_empty'    => true,
+            'hide_empty'    => 1,
             'title_li'      => __( '', 'knowledge-base' ),
             'show_count'    => 1,
         ), $atts );
