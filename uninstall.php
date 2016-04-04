@@ -1,6 +1,6 @@
 <?php
 /**
- * Knowledge_Base uninstaller.
+ * Knowledge Base uninstaller.
  *
  * @link https://developer.wordpress.org/plugins/the-basics/uninstall-methods/#uninstall-php
  *
@@ -21,6 +21,6 @@ $my_prefix = Knowledge_Base::$prefix;
 // Delete plugin options.
 delete_option( "{$my_prefix}_settings" );
 
-foreach ( get_users() as $usr ) {
+foreach ( get_users() as $user ) {
     // Delete all custom user profile data.
 }
