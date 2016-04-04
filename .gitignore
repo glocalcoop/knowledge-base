@@ -27,5 +27,3 @@ phpdoc.xml
 # subfolder. Since it gets automatically generated, we don't want to
 # save it in the code repository itself.
 docs/
-vendor
-bin
