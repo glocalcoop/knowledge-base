@@ -33,8 +33,8 @@ class Knowledge_Base_Taxonomy {
      */
     public function __construct() {
         $this->labels = apply_filters( 'kb_category_taxonomy_labels', array(
-            'name'              => __( 'Categories', Knowledge_Base::$text_domain ),
-            'singular_name'     => _x( 'Category', 'taxonomy general name', Knowledge_Base::$text_domain ),
+            'name'              => __( 'Categories', 'knowledge-base' ),
+            'singular_name'     => _x( 'Category', 'taxonomy general name', 'knowledge-base' ),
         ) );
     }
 

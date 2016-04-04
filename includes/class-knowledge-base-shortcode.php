@@ -83,7 +83,7 @@ class Knowledge_Base_Shortcode {
             'taxonomy'      => Knowledge_Base_Taxonomy::name,
             'show_count'    => 1,
             'walker'        => new Knowledge_Base_Walker_Class,
-            'title_li'      => __( '', Knowledge_Base::$text_domain ),
+            'title_li'      => __( '', 'knowledge-base' ),
             //'echo'          => 0
         ) );
         ?>

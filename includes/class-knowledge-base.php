@@ -59,8 +59,8 @@ class Knowledge_Base_Entry {
      */
     public function __construct () {
         $this->labels = apply_filters( 'kb_post_type_labels', array(
-            'name'                  => _x( 'Knowledge Base', 'Post Type General Name', Knowledge_Base::$text_domain ),
-            'singular_name'         => _x( 'Knowledge Base Item', 'Post Type Singular Name', Knowledge_Base::$text_domain ),
+            'name'                  => _x( 'Knowledge Base', 'Post Type General Name', 'knowledge-base' ),
+            'singular_name'         => _x( 'Knowledge Base Item', 'Post Type Singular Name', 'knowledge-base' ),
         ) );
     }
 

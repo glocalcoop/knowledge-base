@@ -44,15 +44,6 @@ class Knowledge_Base {
     public static $prefix = 'Knowledge_Base';
 
     /**
-     * Text Domain
-     *
-     * @link https://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
-     *
-     * @var string
-     */
-    public static $text_domain = 'knowledge-base';
-
-    /**
      * Entry point for the WordPress framework into plugin code.
      *
      * This is the method called when WordPress loads the plugin file.
@@ -140,7 +131,7 @@ class Knowledge_Base {
         if (version_compare($min_wp_version, $wp_version) > 0) {
             deactivate_plugins(plugin_basename(__FILE__));
             wp_die(sprintf(
-                __('Knowledge_Base requires at least WordPress version %1$s. You have WordPress version %2$s.', 'Knowledge_Base'),
+                __('Knowledge_Base requires at least WordPress version %1$s. You have WordPress version %2$s.', 'knowledge-base'),
                 $min_wp_version, $wp_version
             ));
         }
