@@ -22,13 +22,6 @@
 class Knowledge_Base_Shortcode {
 
     /**
-     * The tag for the shortcode itself.
-     *
-     * @var string
-     */
-    const tagname = 'knowledge-base';
-
-    /**
      * How many times have we invoked the shortcode?
      *
      * @var int
@@ -36,99 +29,56 @@ class Knowledge_Base_Shortcode {
     public static $invocations = 0;
 
     /**
-     * Attributes passed to the shortcode.
-     *
-     * @var array
-     */
-    private $atts;
-
-    /**
-     * Any content within the opening and closing tags.
-     *
-     * @var string
-     */
-    private $content;
-
-    /**
      * Constructor.
+     *
+     */
+    function __construct() {
+
+        add_shortcode( 'knowledge-base',  array( $this, 'get_category_list' ) );
+    }
+ 
+    /**
+     * Shortcode
+     * Shortcode for displaying hierarchical list of taxonomy terms
      *
      * @param array $atts
      * @param string $content
      */
-    public function __construct( $atts, $content = null ) {
+    public function get_category_list( $atts, $content = null ) {
+
         if ( empty( $atts ) ) { 
             $atts = array();
         }
+
         $this->atts = shortcode_atts( array(
             // Recognized shortcode attribute names and their values.
-            'style'  => '',
-            'terms' => array(),
-            'hide_empty' => true,
+            'hide_empty'    => true,
+            'title_li'      => __( '', 'knowledge-base' ),
+            'show_count'    => 1,
         ), $atts );
-        $this->content = $content;
-    }
 
-    /**
-     * Gets data from WordPress based on shortcode attributes.
-     *
-     * This will set the `$html` member to the appropriate output.
-     *
-     * @return void
-     */
-    private function prepare() {
-        $cpt = new Knowledge_Base_Entry();
+        $this->args = apply_filters( 'kb_shortcode_args', array( 
+            'taxonomy'      => Knowledge_Base_Taxonomy::name,
+            'walker'        => new Knowledge_Base_Walker_Class,
+            'echo'          => 0,
+            'show_count'    => $this->atts['show_count'],
+            'title_li'      => __( $this->atts['title_li'], 'knowledge-base' ),
+        ) );
+
         $html = ''; 
 
-        $args = apply_filters( 'kb_shortcode_args', array( 
-            'taxonomy'      => Knowledge_Base_Taxonomy::name,
-            'show_count'    => 1,
-            'walker'        => new Knowledge_Base_Walker_Class,
-            'title_li'      => __( '', 'knowledge-base' ),
-            //'echo'          => 0
-        ) );
         ?>
 
-        <?php ob_start(); ?>
+        <?php
+        $html .= '<ul class="knowledge-base-list">';
 
-        <ul class="knowledge-base-list" id="instance-<?php print self::$invocations; ?>">
+        $html .= wp_list_categories( $this->args );
 
-            <?php wp_list_categories( $args ); ?>
+        $html .= '</ul>';
+        ?>
 
-        </ul>
-
-        <?php $html .= ob_get_contents(); ?>
-
-        <?php ob_end_clean(); ?>
-
-        <?php // Save the HTML for later display.
-        $this->html = $html;
+        <?php
+        return $html;
     }
-
-    /**
-     * Prints the shortcode output to the browser.
-     */
-    private function display() {
-        print $this->html;
-    }
-
-    /**
-     * Registers the shortcode and its assets.
-     */
-    public static function register() {
-        add_shortcode( self::tagname, array( __CLASS__, 'doShortcode' ) );
-    }
-
-    /**
-     * Shortcode handler.
-     *
-     * @param array $atts
-     * @param string $content
-     */
-    public static function doShortcode( $atts, $content = null ) {
-        self::$invocations++;
-        $shortcode = new self( $atts, $content );
-        $shortcode->prepare();
-        $shortcode->display();
-    }
-
+ 
 }
