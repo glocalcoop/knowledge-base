@@ -17,35 +17,42 @@ class Knowledge_Base_Taxonomy {
      *
      * @var string
      */
-    const name = 'kb_category';
+    const name = 'knowledge_base_category';
 
     /**
      * Capabilities needed to act on the taxonomy.
-     *
+     * 
      * @var array
+     *
+     * @link https://codex.wordpress.org/Roles_and_Capabilities
      */
-    private $capabilities = array(
-        'manage_terms' => 'edit_posts',
-        'edit_terms'   => 'edit_posts',
-        'delete_terms' => 'edit_posts',
-        'assign_terms' => 'edit_posts',
-    );
+    private $capability_type = 'post';
 
     /**
      * Constructor.
      */
-    public function __construct () {
+    public function __construct() {
+        $this->labels = apply_filters( 'kb_category_taxonomy_labels', array(
+            'name'              => __( 'Categories', Knowledge_Base::$text_domain ),
+            'singular_name'     => _x( 'Category', 'taxonomy general name', Knowledge_Base::$text_domain ),
+        ) );
     }
 
     /**
      * Registers the taxonomy.
      */
-    public function register () {
-        register_taxonomy( self::name, Knowledge_Base_Entry::name, array(
-            'hierarchical' => true,
-            'capabilities' => add_filter( 'kb_category_capabilities', $this->capabilities ),
+    public function register() {
+        register_taxonomy(
+            self::name,
+            Knowledge_Base_Entry::name,
+            apply_filters( 'kb_register_category_taxonomy', array(
+                'labels'                => $this->labels,
+                'capability_type'       => $this->capability_type,
+                'hierarchical'          => true,
+                'show_in_rest'          => true,
+                'rest_base'             => self::name,
+                'rest_controller_class' => 'WP_REST_Terms_Controller',
+            )
         ) );
-
     }
-
 }
