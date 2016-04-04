@@ -21,6 +21,10 @@ Use the shortcode in your theme by adding `<?php echo do_shortcode( "[knowledge-
 
 = Options =
 
-'hide_empty' - Hide categories that have no posts associated with them ( default is `1`)
-'title_li' - Display a title before the list (default is none)
-'show_count' - Display number of posts for each category (default is `1`)
+* 'hide_empty' - Hide categories that have no posts associated with them ( default is `1`)
+* 'title_li' - Display a title before the list (default is none)
+* 'show_count' - Display number of posts for each category (default is `1`)
+
+Example:
+`[knowledge-base hide_empty=0 title_li=Topics show_count=0]`
+

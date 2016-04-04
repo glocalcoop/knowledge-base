@@ -27,4 +27,4 @@ Use the shortcode in your theme by adding `<?php echo do_shortcode( "[knowledge-
 * 'show_count' - Display number of posts for each category (default is `1`)
 
 Example:
-`[knowledge-base 'hide_empty'=0 'title_li'='Topics' 'show_count'=0]`
+`[knowledge-base hide_empty=0 title_li=Topics show_count=0]`
