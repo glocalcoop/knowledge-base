@@ -80,7 +80,7 @@ class Knowledge_Base {
         $tax = new Knowledge_Base_Taxonomy();
         $tax->register();
 
-        $shortcodes = new Knowledge_Base_Shortcode();
+        $shortcodes = new Knowledge_Base_Shortcodes();
 
     }
 

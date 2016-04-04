@@ -19,7 +19,7 @@
  *
  * @link https://codex.wordpress.org/Shortcode_API
  */
-class Knowledge_Base_Shortcode {
+class Knowledge_Base_Shortcodes {
 
     /**
      * How many times have we invoked the shortcode?
