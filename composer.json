@@ -1,6 +1,6 @@
 {
-    "name": "glocalcoop/knowledge-base",
-    "description": "Simple plugin that creates a knowledge base with related taxonomies",
+    "name": "glocalcoop/Knowledge_Base",
+    "description": "Simple plugin...",
     "type": "wordpress-plugin",
     "require-dev": {
         "phpunit/phpunit": "^5.2"
@@ -13,26 +13,5 @@
         }
     ],
     "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "meitar/wp-screen-help-loader",
-                "version": "master",
-                "type": "package",
-                "dist": {
-                    "type": "zip",
-                    "url": "https://github.com/meitar/wp-screen-help-loader/archive/master.zip"
-                },
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/meitar/wp-screen-help-loader.git",
-                    "reference": "master"
-                }
-            }
-        }
-    ],
-    "require": {
-        "meitar/wp-screen-help-loader": "dev-master"
-    }
+    "require": {}
 }
