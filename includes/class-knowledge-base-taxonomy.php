@@ -29,6 +29,17 @@ class Knowledge_Base_Taxonomy {
     private $capability_type = 'post';
 
     /**
+     * Rewrite Options
+     *
+     * @link https://codex.wordpress.org/Function_Reference/register_taxonomy
+     */
+    private $rewrite = array(
+        'slug'                       => 'knowledge-base-category',
+        'with_front'                 => true,
+        'hierarchical'               => true,
+    );
+
+    /**
      * Constructor.
      */
     public function __construct() {
@@ -48,7 +59,7 @@ class Knowledge_Base_Taxonomy {
             apply_filters( 'kb_register_category_taxonomy', array(
                 'labels'                => $this->labels,
                 'capability_type'       => $this->capability_type,
-                'hierarchical'          => true,
+                'rewrite'               => $this->rewrite,
                 'show_in_rest'          => true,
                 'rest_base'             => self::name,
                 'rest_controller_class' => 'WP_REST_Terms_Controller',
