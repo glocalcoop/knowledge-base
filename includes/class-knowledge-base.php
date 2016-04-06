@@ -55,6 +55,18 @@ class Knowledge_Base_Entry {
     );
 
     /**
+     * Rewrite Options
+     *
+     * @link https://codex.wordpress.org/Function_Reference/register_post_type#rewrite
+     */
+    private $rewrite = array(
+        'slug'          => 'knowledge-base',
+        'with_front'    => true,
+        'pages'         => true,
+        'feeds'         => true,
+    );
+
+    /**
      * Constructor.
      */
     public function __construct () {
@@ -75,7 +87,8 @@ class Knowledge_Base_Entry {
                 'supports'            => $this->supports,
                 'capability_type'     => $this->capability_type,
                 'public'              => true,
-                'has_archive'         => true,
+                'has_archive'         => 'knowledge-base',
+                'rewrite'             => $this->rewrite,
                 'hierarchical'        => false,
                 'menu_icon'           => 'dashicons-lightbulb',
                 'show_in_rest'        => true,
