@@ -6,7 +6,7 @@
  *
  * Plugin Name: Knowledge Base
  * Plugin URI: https://github.com/glocalcoop/Knowledge_Base
- * Version: 0.1-alpha
+ * Version: 0.1.1-alpha
  * Description: Simple plugin that creates a knowledge base with related taxonomies
  * Author: Pea, Glocal <pea@glocal.coop>
  * Author URI: https://glocal.coop/
@@ -109,7 +109,7 @@ class Knowledge_Base {
         self::initialize();
 
         $plugin = new self();
-        
+
         flush_rewrite_rules();
     }
 
