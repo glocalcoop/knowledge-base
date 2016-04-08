@@ -1,12 +1,12 @@
 # Knowledge_Base
 
-Contributors: misfist
-Tags: resources
-Requires at least: 4.4
-Tested up to: 4.4.1
-Stable tag: 0.1-alpha
-License: GPLv3 or later
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+* Contributors: misfist
+* Tags: resources
+* Requires at least: 4.4
+* Tested up to: 4.4.1
+* Stable tag: 0.1.1-alpha
+* License: GPLv3 or later
+* License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 A simple plugin that creates a knowledge base with related taxonomies.
 
@@ -28,3 +28,13 @@ Use the shortcode in your theme by adding `<?php echo do_shortcode( "[knowledge-
 
 Example:
 `[knowledge-base hide_empty=0 title_li=Topics show_count=0]`
+
+## Revisions
+
+### 0.1.1-alpha
+
+* Added post type labels
+* Fixed taxonomy hierarchy
+* Changed order of require so taxonomy is registered first
+* Added `child_of` attribute to shortcode
+* Updated readme

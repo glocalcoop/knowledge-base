@@ -57,8 +57,8 @@ class Knowledge_Base {
      * @return void
      */
     public static function register () {
-        require_once 'includes/class-knowledge-base.php';
         require_once 'includes/class-knowledge-base-taxonomy.php';
+        require_once 'includes/class-knowledge-base.php';
         require_once 'includes/class-knowledge-base-shortcode.php';
         require_once 'includes/class-knowledge-base-walker.php';
         add_action('plugins_loaded', array(__CLASS__, 'registerL10n'));
@@ -109,6 +109,8 @@ class Knowledge_Base {
         self::initialize();
 
         $plugin = new self();
+        
+        flush_rewrite_rules();
     }
 
     /**

@@ -51,11 +51,14 @@ class Knowledge_Base_Shortcodes {
             $atts = array();
         }
 
+
+
         $this->atts = shortcode_atts( array(
             // Recognized shortcode attribute names and their values.
             'hide_empty'    => 1,
             'title_li'      => __( '', 'knowledge-base' ),
             'show_count'    => 1,
+            'child_of'      => $atts['child_of']
         ), $atts );
 
         $this->args = apply_filters( 'kb_shortcode_args', array( 
@@ -64,6 +67,7 @@ class Knowledge_Base_Shortcodes {
             'echo'          => 0,
             'show_count'    => $this->atts['show_count'],
             'title_li'      => __( $this->atts['title_li'], 'knowledge-base' ),
+            'child_of'      => $this->atts['child_of'],
         ) );
 
         $html = ''; 

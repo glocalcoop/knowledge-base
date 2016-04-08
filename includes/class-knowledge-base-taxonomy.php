@@ -34,9 +34,7 @@ class Knowledge_Base_Taxonomy {
      * @link https://codex.wordpress.org/Function_Reference/register_taxonomy
      */
     private $rewrite = array(
-        'slug'                       => 'knowledge-base-category',
-        'with_front'                 => true,
-        'hierarchical'               => true,
+        'slug'  => 'knowledge-base-category',
     );
 
     /**
@@ -60,6 +58,7 @@ class Knowledge_Base_Taxonomy {
                 'labels'                => $this->labels,
                 'capability_type'       => $this->capability_type,
                 'rewrite'               => $this->rewrite,
+                'hierarchical'          => true,
                 'show_in_rest'          => true,
                 'rest_base'             => self::name,
                 'rest_controller_class' => 'WP_REST_Terms_Controller',

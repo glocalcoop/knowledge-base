@@ -73,6 +73,9 @@ class Knowledge_Base_Entry {
         $this->labels = apply_filters( 'kb_post_type_labels', array(
             'name'                  => _x( 'Knowledge Base', 'Post Type General Name', 'knowledge-base' ),
             'singular_name'         => _x( 'Knowledge Base Item', 'Post Type Singular Name', 'knowledge-base' ),
+            'name_admin_bar'        => __( 'Knowledge Base', 'knowledge-base' ),
+            'archives'              => __( 'Knowledge Base', 'knowledge-base' ),
+            'search_items'          => __( 'Search Knowledge Base', 'knowledge-base' ),
         ) );
     }
 
