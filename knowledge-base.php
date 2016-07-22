@@ -6,7 +6,7 @@
  *
  * Plugin Name: Knowledge Base
  * Plugin URI: https://github.com/glocalcoop/Knowledge_Base
- * Version: 0.1.1-alpha
+ * Version: 0.1.2
  * Description: Simple plugin that creates a knowledge base with related taxonomies
  * Author: Pea, Glocal <pea@glocal.coop>
  * Author URI: https://glocal.coop/
@@ -58,9 +58,10 @@ class Knowledge_Base {
      */
     public static function register () {
         require_once 'includes/class-knowledge-base-taxonomy.php';
-        require_once 'includes/class-knowledge-base.php';
+        require_once 'includes/class-knowledge-base-post.php';
         require_once 'includes/class-knowledge-base-shortcode.php';
         require_once 'includes/class-knowledge-base-walker.php';
+        require_once 'admin/class-knowledge-base-admin.php';
         add_action('plugins_loaded', array(__CLASS__, 'registerL10n'));
         add_action('init', array(__CLASS__, 'initialize'));
 
@@ -81,6 +82,8 @@ class Knowledge_Base {
         $tax->register();
 
         $shortcodes = new Knowledge_Base_Shortcodes();
+
+        $settings = new Knowledge_Base_Admin( 'knowledge_base' );
 
     }
 

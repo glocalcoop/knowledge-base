@@ -27,6 +27,16 @@ class Knowledge_Base_Entry {
     private $labels;
 
     /**
+     * Custom slug
+     *
+     * @since 0.
+     *
+     * @var string
+     */
+    private $slug;
+
+
+    /**
      * Capabilities needed to act on the custom post type.
      *
      * @var array
@@ -54,17 +64,6 @@ class Knowledge_Base_Entry {
         'page-attributes'
     );
 
-    /**
-     * Rewrite Options
-     *
-     * @link https://codex.wordpress.org/Function_Reference/register_post_type#rewrite
-     */
-    private $rewrite = array(
-        'slug'          => 'knowledge-base',
-        'with_front'    => true,
-        'pages'         => true,
-        'feeds'         => true,
-    );
 
     /**
      * Constructor.
@@ -77,6 +76,8 @@ class Knowledge_Base_Entry {
             'archives'              => __( 'Knowledge Base', 'knowledge-base' ),
             'search_items'          => __( 'Search Knowledge Base', 'knowledge-base' ),
         ) );
+
+        $this->slug = $this->get_slug();
     }
 
     /**
@@ -90,8 +91,11 @@ class Knowledge_Base_Entry {
                 'supports'            => $this->supports,
                 'capability_type'     => $this->capability_type,
                 'public'              => true,
-                'has_archive'         => 'knowledge-base',
-                'rewrite'             => $this->rewrite,
+                'has_archive'         => $this->slug,
+                'rewrite'             => array(
+                    'slug'              => $this->slug,
+                    'with_front'        => false
+                ),
                 'hierarchical'        => false,
                 'menu_icon'           => 'dashicons-lightbulb',
                 'show_in_rest'        => true,
@@ -118,6 +122,27 @@ class Knowledge_Base_Entry {
         }
         $posts = get_posts( $args );
         return $posts;
+    }
+
+    /**
+     * Gets slug.
+     *
+     *
+     * @return string
+     */
+    public function get_slug() {
+        $options = get_option( 'kb_settings' );
+        return $options['kb_slug'];
+    }
+
+    /**
+     * Sets slug.
+     *
+     *
+     * @return void
+     */
+    public function set_slug( $slug ) {
+        update_option( $options['kb_slug'], $slug );
     }
 
 }
