@@ -24,6 +24,6 @@
         ?>          
     </form>
     <div class="update-nag">
-        <?php _e( 'In order of changes to take effect, please update Permalink settings (Settings > Permalinks).', 'knowledge-base' ) ?>
+        <?php _e( 'In order for changes to take effect, please update Permalink settings (Settings > Permalinks).', 'knowledge-base' ) ?>
     </div>
 </div>
