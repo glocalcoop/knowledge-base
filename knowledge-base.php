@@ -1,189 +1,75 @@
 <?php
-/**
- * The Knowledge Base plugin for WordPress.
- *
- * WordPress plugin header information:
- *
- * Plugin Name: Knowledge Base
- * Plugin URI: https://github.com/glocalcoop/Knowledge_Base
- * Version: 0.1.2
- * Description: Simple plugin that creates a knowledge base with related taxonomies
- * Author: Pea, Glocal <pea@glocal.coop>
- * Author URI: https://glocal.coop/
- * License: GPL-3
- * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
- * Text Domain: knowledge-base
- * Domain Path: /languages
- *
- * @link https://developer.wordpress.org/plugins/the-basics/header-requirements/
- *
- * @license https://www.gnu.org/licenses/gpl-3.0.en.html
- *
- * @copyright Copyright (c) 2016 by My Name
- *
- * @package WordPress\Plugin\Knowledge_Base
- */
-
-if (!defined('ABSPATH')) { exit; } // Disallow direct HTTP access.
 
 /**
- * Base class that WordPress uses to register and initialize plugin.
+ * The plugin bootstrap file
+ *
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              https://glocal.coop
+ * @since             0.1.1-alpha
+ * @package           Knowledge_Base
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Knowledge Base
+ * Plugin URI:        https://github.com/glocalcoop/knowledge-base
+ * Description:       A plugin that creates a knowledge base with related taxonomies.
+ * Version:           0.1.2
+ * Author:            Pea, Glocal
+ * Author URI:        https://glocal.coop
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       knowledge-base
+ * Domain Path:       /languages
  */
-class Knowledge_Base {
 
-    /**
-     * String to prefix option names, settings, etc. in shared spaces.
-     *
-     * Some WordPress data storage areas are basically one globally
-     * shared namespace. For example, names of options saved in WP's
-     * options table must be globally unique. When saving data in any
-     * such shared space, we need to prefix the name we use.
-     *
-     * @var string
-     */
-    public static $prefix = 'Knowledge_Base';
-
-    /**
-     * Entry point for the WordPress framework into plugin code.
-     *
-     * This is the method called when WordPress loads the plugin file.
-     * It is responsible for "registering" the plugin's main functions
-     * with the {@see https://codex.wordpress.org/Plugin_API WordPress Plugin API}.
-     *
-     * @uses add_action()
-     * @uses register_activation_hook()
-     * @uses register_deactivation_hook()
-     *
-     * @return void
-     */
-    public static function register () {
-        require_once 'includes/class-knowledge-base-taxonomy.php';
-        require_once 'includes/class-knowledge-base-post.php';
-        require_once 'includes/class-knowledge-base-shortcode.php';
-        require_once 'includes/class-knowledge-base-walker.php';
-        require_once 'admin/class-knowledge-base-admin.php';
-        add_action('plugins_loaded', array(__CLASS__, 'registerL10n'));
-        add_action('init', array(__CLASS__, 'initialize'));
-
-        register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
-        register_deactivation_hook(__FILE__, array(__CLASS__, 'deactivate'));
-    }
-
-    /**
-     * Intialize
-     *
-     * @link https://developer.wordpress.org/reference/hooks/init/
-     */
-    public static function initialize () {
-        $cpt = new Knowledge_Base_Entry();
-        $cpt->register();
-
-        $tax = new Knowledge_Base_Taxonomy();
-        $tax->register();
-
-        $shortcodes = new Knowledge_Base_Shortcodes();
-
-        $settings = new Knowledge_Base_Admin( 'knowledge_base' );
-
-    }
-
-
-    /**
-     * Loads localization files from plugin's languages directory.
-     *
-     * @uses load_plugin_textdomain()
-     *
-     * @return void
-     */
-    public static function registerL10n () {
-        load_plugin_textdomain('Knowledge_Base', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-    }
-
-    /**
-     * Method to run when the plugin is activated by a user in the
-     * WordPress Dashboard admin screen.
-     *
-     * @uses Knowledge_Base::checkPrereqs()
-     *
-     * @return void
-     */
-    public static function activate () {
-        self::checkPrereqs();
-        self::initialize();
-
-        $plugin = new self();
-
-        flush_rewrite_rules();
-    }
-
-    /**
-     * Checks system requirements and exits if they are not met.
-     *
-     * This first checks to ensure minimum WordPress and PHP versions
-     * have been satisfied. If not, the plugin deactivates and exits.
-     *
-     * @global $wp_version
-     *
-     * @uses $wp_version
-     * @uses Knowledge_Base::get_minimum_wordpress_version()
-     * @uses deactivate_plugins()
-     * @uses plugin_basename()
-     *
-     * @return void
-     */
-    public static function checkPrereqs () {
-        global $wp_version;
-        $min_wp_version = self::get_minimum_wordpress_version();
-        if (version_compare($min_wp_version, $wp_version) > 0) {
-            deactivate_plugins(plugin_basename(__FILE__));
-            wp_die(sprintf(
-                __('Knowledge_Base requires at least WordPress version %1$s. You have WordPress version %2$s.', 'knowledge-base'),
-                $min_wp_version, $wp_version
-            ));
-        }
-    }
-
-    /**
-     * Returns the "Requires at least" value from plugin's readme.txt.
-     *
-     * @link https://wordpress.org/plugins/about/readme.txt WordPress readme.txt standard
-     *
-     * @return string
-     */
-    public static function get_minimum_wordpress_version () {
-        $lines = @file(plugin_dir_path(__FILE__) . 'readme.txt');
-        foreach ($lines as $line) {
-            preg_match('/^Requires at least: ([0-9.]+)$/', $line, $m);
-            if ($m) {
-                return $m[1];
-            }
-        }
-    }
-
-    /**
-     * Method to run when the plugin is deactivated by a user in the
-     * WordPress Dashboard admin screen.
-     *
-     * @return void
-     */
-    public static function deactivate () {
-        // TODO
-    }
-
-    /**
-     * Prepares an error message for logging.
-     *
-     * @param string $message
-     *
-     * @return string
-     */
-    private static function error_msg ($message) {
-        $dbt = debug_backtrace();
-        // the "2" is so we get the name of the function that originally called debug_log()
-        // This works so long as error_msg() is always called by debug_log()
-        return '[' . get_called_class() . '::' . $dbt[2]['function'] . '()]: ' . $message;
-    }
-
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
 
-Knowledge_Base::register();
+/**
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-knowledge-base-activator.php
+ */
+function activate_knowledge_base() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-knowledge-base-activator.php';
+	Knowledge_Base_Activator::activate();
+}
+
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-knowledge-base-deactivator.php
+ */
+function deactivate_knowledge_base() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-knowledge-base-deactivator.php';
+	Knowledge_Base_Deactivator::deactivate();
+}
+
+register_activation_hook( __FILE__, 'activate_knowledge_base' );
+register_deactivation_hook( __FILE__, 'deactivate_knowledge_base' );
+
+/**
+ * The core plugin class that is used to define internationalization,
+ * admin-specific hooks, and public-facing site hooks.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/class-knowledge-base.php';
+
+/**
+ * Begins execution of the plugin.
+ *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * @since    0.1.2
+ */
+function run_knowledge_base() {
+
+	$plugin = new Knowledge_Base();
+	$plugin->run();
+
+}
+run_knowledge_base();
