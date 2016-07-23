@@ -2,9 +2,11 @@
 /**
  * A Knowledge Base Post
  *
- * @license https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @link       https://glocal.coop
+ * @since      0.1.1-alpha
  *
- * @package WordPress\Plugin\Knowledge_Base
+ * @package    Knowledge_Base
+ * @subpackage Knowledge_Base/includes
  */
 
 /**
@@ -15,12 +17,16 @@ class Knowledge_Base_Entry {
     /**
      * Name of the custom post type.
      *
+     * @since    0.1.1-alpha
+     *
      * @var string
      */
     const name = 'knowledge_base';
 
     /**
      * Custom post type UI labels.
+     *
+     * @since    0.1.1-alpha
      *
      * @var array
      */
@@ -29,7 +35,7 @@ class Knowledge_Base_Entry {
     /**
      * Custom slug
      *
-     * @since 0.
+     * @since    0.1.2
      *
      * @var string
      */
@@ -38,6 +44,8 @@ class Knowledge_Base_Entry {
 
     /**
      * Capabilities needed to act on the custom post type.
+     *
+     * @since    0.1.1-alpha
      *
      * @var array
      *
@@ -67,6 +75,8 @@ class Knowledge_Base_Entry {
 
     /**
      * Constructor.
+     *
+     * @since    0.1.1-alpha
      */
     public function __construct () {
         $this->labels = apply_filters( 'kb_post_type_labels', array(
@@ -77,11 +87,16 @@ class Knowledge_Base_Entry {
             'search_items'          => __( 'Search Knowledge Base', 'knowledge-base' ),
         ) );
 
-        $this->slug = $this->get_slug();
+        $this->slug = $this->get_option();
+
+        add_action( 'init', array( $this, 'register' ) );
     }
 
     /**
      * Registers the custom post type with via WordPress API.
+     *
+     * @since    0.1.1-alpha
+     *
      */
     public function register() {
         register_post_type(
@@ -125,8 +140,20 @@ class Knowledge_Base_Entry {
     }
 
     /**
+     * Get Rewrite Setting
+     *
+     * @since    0.1.2
+     *
+     * @link https://developer.wordpress.org/reference/functions/get_option/
+     */
+    public function get_option() {
+        return knowledge_base_get_option( 'post_slug' );
+    }
+
+    /**
      * Gets slug.
      *
+     * @since    0.1.2
      *
      * @return string
      */
@@ -138,6 +165,7 @@ class Knowledge_Base_Entry {
     /**
      * Sets slug.
      *
+     * @since    0.1.2
      *
      * @return void
      */

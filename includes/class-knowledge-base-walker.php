@@ -2,9 +2,11 @@
 /**
  * A Knowledge Base Walker Class
  *
- * @license https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @link       https://glocal.coop
+ * @since      0.1.1-alpha
  *
- * @package WordPress\Plugin\Knowledge_Base
+ * @package    Knowledge_Base
+ * @subpackage Knowledge_Base/includes
  */
 
 /**
