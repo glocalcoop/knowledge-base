@@ -4,7 +4,7 @@
 * Tags: resources
 * Requires at least: 4.4
 * Tested up to: 4.4.1
-* Stable tag: 0.1.2
+* Stable tag: 0.1.3
 * License: GPLv3 or later
 * License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -30,6 +30,11 @@ Example:
 `[knowledge-base hide_empty=0 title_li=Topics show_count=0]`
 
 ## Revisions
+
+### 0.1.3 - July 25, 2016
+
+* Moved mark-up to public view `knowledge-base-public-display.php`
+* Updated custom Walker class markup to be more accessible
 
 ### 0.1.2 - July 12, 2016
 

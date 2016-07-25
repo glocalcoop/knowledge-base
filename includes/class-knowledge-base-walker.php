@@ -103,7 +103,7 @@ class Knowledge_Base_Walker_Class extends Walker {
             $link .= 'title="' . esc_attr( strip_tags( apply_filters( 'category_description', $category->description, $category ) ) ) . '"';
         }
 
-        $link .= '>';
+        $link .= ' rel="bookmark" title="' . $cat_name . '">';
         $link .= $cat_name . '</a>';
 
         if ( ! empty( $args['show_count'] ) ) {
@@ -176,8 +176,8 @@ class Knowledge_Base_Walker_Class extends Walker {
 
             $post_link = get_post_permalink( $post->ID );
 
-            $output .= '<li>';
-            $output .= '<a href="' . esc_url( $post_link ) . '" rel="bookmark">' .$post->post_title . '</a>';
+            $output .= '<li id="' . $post->ID . '" >';
+            $output .= '<a href="' . esc_url( $post_link ) . '" rel="bookmark" title="' . $post->post_title . '">' . $post->post_title . '</a>';
             $output .= '</li>';
         }
 
