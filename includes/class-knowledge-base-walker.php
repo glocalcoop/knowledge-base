@@ -113,6 +113,7 @@ class Knowledge_Base_Walker_Class extends Walker {
         if ( 'list' == $args['style'] ) {
             $output .= "\t<li";
             $css_classes = array(
+                'entry',
                 'tax-item',
                 'tax-item-' . $category->term_id,
             );

@@ -35,6 +35,7 @@ Example:
 
 * Moved mark-up to public view `knowledge-base-public-display.php`
 * Updated custom Walker class markup to be more accessible
+* Added `entry` class to each category `li`
 
 ### 0.1.2 - July 12, 2016
 

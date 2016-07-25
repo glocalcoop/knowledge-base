@@ -33,6 +33,7 @@ Example:
 = 0.1.3 - July 25, 2016 =
 * Moved mark-up to public view `knowledge-base-public-display.php`
 * Updated custom Walker class markup to be more accessible
+* Added `entry` class to each category `li` in custom Walker class markup
 
 = 0.1.2 - July 12, 2016 =
 * [Feature #1430] - Added options page with rewrite settings the post type and taxonomy. Note: Permalinks (Settings > Permalinks) must be reset in order for this to take effect.
