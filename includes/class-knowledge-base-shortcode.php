@@ -46,6 +46,7 @@ class Knowledge_Base_Shortcodes {
      *
      * @param array $atts
      * @param string $content
+     * @return string $output
      */
     public function get_category_list( $atts, $content = null ) {
 
@@ -70,20 +71,11 @@ class Knowledge_Base_Shortcodes {
             'child_of'      => $this->atts['child_of'],
         ) );
 
-        $html = ''; 
+        ob_start();
 
-        ?>
+        include_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/views/knowledge-base-public-display.php';
 
-        <?php
-        $html .= '<ul class="knowledge-base-list">';
-
-        $html .= wp_list_categories( $this->args );
-
-        $html .= '</ul>';
-        ?>
-
-        <?php
-        return $html;
+        return ob_get_clean();
     }
  
 }

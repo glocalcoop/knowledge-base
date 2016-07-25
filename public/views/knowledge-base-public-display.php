@@ -13,4 +13,8 @@
  */
 ?>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<ul class="knowledge-base-list entries-list">
+
+<?php echo wp_list_categories( $this->args ); ?>
+
+</ul>
