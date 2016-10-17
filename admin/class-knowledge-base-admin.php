@@ -76,15 +76,15 @@ class Knowledge_Base_Admin {
 	 * @since    0.1.2
 	 *
 	 * @param string $page_title 	The text to be displayed in the title tags of the page when the menu is selected
-	 * @param string $menu_title 	The text to be used for the menu 
-	 * @param string $capability 	The capability required for this menu to be displayed to the user. 
-	 * @param string $menu_slug 	The slug name to refer to this menu by (should be unique for this menu). 
+	 * @param string $menu_title 	The text to be used for the menu
+	 * @param string $capability 	The capability required for this menu to be displayed to the user.
+	 * @param string $menu_slug 	The slug name to refer to this menu by (should be unique for this menu).
 	 * @param callback $callback 	The function to be called to output the content for this page.
 	 *
 	 * @link https://codex.wordpress.org/Function_Reference/add_options_page
 	 */
 	public function admin_menu() {
-		add_options_page( 
+		add_options_page(
 			__( 'Knowledge Base Settings', 'knowledge-base' ), //$page_title
 			__( 'Knowledge Base', 'knowledge-base' ), //$menu_title
 			'manage_options', //$capability
@@ -101,7 +101,7 @@ class Knowledge_Base_Admin {
 	 * @uses add_settings_section()
 	 *
 	 * @param string $id 	String for use in the 'id' attribute of tag. This is the same as in `$section` in  `add_settings_field`
-	 * @param string $title 	Title of the section. 
+	 * @param string $title 	Title of the section.
 	 * @param callback $callback 	Function that fills the section with the desired content. The function should echo its output.
 	 * @param string $page 	The menu page on which to display this section. Should match $menu_slug
 	 *
@@ -109,12 +109,12 @@ class Knowledge_Base_Admin {
 	 * @link https://developer.wordpress.org/plugins/settings/creating-and-using-options/#adding-settings-sections
 	 */
 	public function settings_section() {
-		add_settings_section( 
+		add_settings_section(
 			'kb_settings_section', // section $id
 			__( 'Knowledge Base settings', 'knowledge-base' ), //$title
 			array( $this, 'settings_section_callback' ), 	//$callback
 			$this->plugin_name //$page
-		); 
+		);
 	}
 
 	/**
@@ -122,17 +122,17 @@ class Knowledge_Base_Admin {
 	 *
 	 * @since    0.1.2
 	 *
-	 * @param string $id 	String for use in the 'id' attribute of tags. 
-	 * @param string $title 	Title of the field. 
-	 * @param callback $callback 	Function that fills the field 
-	 * with the desired inputs as part of the larger form. Passed 
-	 * a single argument, the $args array. Name and id of the 
-	 * input should match the $id given to this function. The 
-	 * function should echo its output. 
-	 * @param string $page 	The menu page on which to display this 
-	 * field. Should match `$menu_slug` from `add_theme_page()` or 
-	 * from `do_settings_sections()`. 
-	 * @param string $section 	The section of the settings page in which to show the box. Should match 
+	 * @param string $id 	String for use in the 'id' attribute of tags.
+	 * @param string $title 	Title of the field.
+	 * @param callback $callback 	Function that fills the field
+	 * with the desired inputs as part of the larger form. Passed
+	 * a single argument, the $args array. Name and id of the
+	 * input should match the $id given to this function. The
+	 * function should echo its output.
+	 * @param string $page 	The menu page on which to display this
+	 * field. Should match `$menu_slug` from `add_theme_page()` or
+	 * from `do_settings_sections()`.
+	 * @param string $section 	The section of the settings page in which to show the box. Should match
 	 * @param array $args 	Additional arguments that are passed to the $callback function.
 	 *
 	 * @link https://codex.wordpress.org/Function_Reference/add_settings_field
@@ -140,22 +140,32 @@ class Knowledge_Base_Admin {
 	 */
 	public function settings_fields() {
 		add_settings_field(
+			'archive_label',
+			__( 'Archive Label', 'knowledge-base' ),
+			array( $this, 'archive_label_field_render' ),
+			$this->plugin_name,
+			'kb_settings_section',
+			array(
+				'label_for' => 'archive_label'
+			)
+		);
+		add_settings_field(
 			'post_slug', //$id
-			__( 'Post slug', 'knowledge-base' ), //$title
+			__( 'Post Slug', 'knowledge-base' ), //$title
 			array( $this, 'post_slug_field_render' ), //$callback
 			$this->plugin_name, //$page
 			'kb_settings_section', //section $id / $section
-			array( 
+			array(
 				'label_for' => 'post_slug'
 			) //$args
 		);
 		add_settings_field(
 			'tax_slug',
-			__( 'Taxonomy slug', 'knowledge-base' ),
+			__( 'Taxonomy Slug', 'knowledge-base' ),
 			array( $this, 'tax_slug_field_render' ),
 			$this->plugin_name,
 			'kb_settings_section',
-			array( 
+			array(
 				'label_for' => 'tax_slug'
 			)
 		);
@@ -169,7 +179,7 @@ class Knowledge_Base_Admin {
 	 * @uses register_settings()
 	 *
 	 * @param string $option_group 	A settings group name. Must exist prior to the `register_setting` call. This must match the group name in `settings_fields()`.
-	 * @param string $option_name 	The name of an option to sanitize and save. 
+	 * @param string $option_name 	The name of an option to sanitize and save.
 	 * @param callback $sanitize_callback 	A callback function that sanitizes the option's value.
 	 *
 	 * @link https://codex.wordpress.org/Function_Reference/register_setting
@@ -193,7 +203,7 @@ class Knowledge_Base_Admin {
 	public function post_slug_field_render() {
 		$setting = knowledge_base_get_option( 'post_slug' );
 		?>
-			<input type="text" name="kb_settings[post_slug]" value="<?php echo $setting; ?>" placeholder="<?php _e( 'e.g. resources', 'knowledge-base' ) ?>" /> 
+			<input type="text" name="kb_settings[post_slug]" value="<?php echo $setting; ?>" placeholder="<?php _e( 'e.g. resources', 'knowledge-base' ) ?>" />
 		<?php
 	}
 
@@ -208,7 +218,22 @@ class Knowledge_Base_Admin {
 	public function tax_slug_field_render() {
 		$setting = knowledge_base_get_option( 'tax_slug' );
 		?>
-			<input type="text" name="kb_settings[tax_slug]" value="<?php echo $setting; ?>" placeholder="<?php _e( 'e.g. resource-category', 'knowledge-base' ) ?>"  /> 
+			<input type="text" name="kb_settings[tax_slug]" value="<?php echo $setting; ?>" placeholder="<?php _e( 'e.g. resource-category', 'knowledge-base' ) ?>"  />
+		<?php
+	}
+
+	/**
+	 * Archive Label field
+	 * Called by `add_settings_field` to render field
+	 *
+	 * @since    0.1.4
+	 *
+	 * @link https://codex.wordpress.org/Function_Reference/add_settings_field
+	 */
+	public function archive_label_field_render() {
+		$setting = knowledge_base_get_option( 'archive_label' );
+		?>
+			<input type="text" name="kb_settings[archive_label]" value="<?php echo $setting; ?>" placeholder="<?php _e( 'e.g. Resources', 'knowledge-base' ) ?>"  />
 		<?php
 	}
 

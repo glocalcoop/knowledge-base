@@ -80,14 +80,14 @@ class Knowledge_Base_Entry {
      */
     public function __construct () {
         $this->labels = apply_filters( 'kb_post_type_labels', array(
-            'name'                  => _x( 'Knowledge Base', 'Post Type General Name', 'knowledge-base' ),
+            'name'                  => $this->get_option( 'archive_label', __( 'Knowledge Base', 'knowledge-base' ) ),
             'singular_name'         => _x( 'Knowledge Base Item', 'Post Type Singular Name', 'knowledge-base' ),
             'name_admin_bar'        => __( 'Knowledge Base', 'knowledge-base' ),
             'archives'              => __( 'Knowledge Base', 'knowledge-base' ),
             'search_items'          => __( 'Search Knowledge Base', 'knowledge-base' ),
         ) );
 
-        $this->slug = $this->get_option();
+        $this->slug = $this->get_option( 'post_slug' );
 
         add_action( 'init', array( $this, 'register' ) );
     }
@@ -146,8 +146,8 @@ class Knowledge_Base_Entry {
      *
      * @link https://developer.wordpress.org/reference/functions/get_option/
      */
-    public function get_option() {
-        return knowledge_base_get_option( 'post_slug' );
+    public function get_option( $option ) {
+        return knowledge_base_get_option( $option );
     }
 
     /**

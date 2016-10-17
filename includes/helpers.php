@@ -14,19 +14,15 @@ function knowledge_base_get_option( $option = false, $default = false ) {
     $defaults = array(
         'post_slug' => 'knowledge-base',
         'tax_slug' => 'knowledge-base-category',
+        'archive_label' => __( 'Knowledge Base', 'knowledge-base' ),
     );
 
     $options = get_option( 'kb_settings', $defaults );
-    $options = wp_parse_args( $options, $defaults );
 
-    $options = apply_filters( 'kb_settings', $options );
-
-    if ( false === $option ) {
-        return $options;
-    }
-
-    if ( ! isset( $options[$option] ) ) {
-        return $default;
+    foreach( $options as $key => $value ) {
+        if( empty( $options[$key] ) ) {
+            $options[$key] = $defaults[$key];
+        }
     }
 
     return $options[$option];

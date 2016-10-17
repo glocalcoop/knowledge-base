@@ -16,7 +16,7 @@
  * Plugin Name:       Knowledge Base
  * Plugin URI:        https://github.com/glocalcoop/knowledge-base
  * Description:       A plugin that creates a knowledge base with related taxonomies.
- * Version:           0.1.3
+ * Version:           0.1.4
  * Author:            Pea, Glocal
  * Author URI:        https://glocal.coop
  * License:           GPL-2.0+
